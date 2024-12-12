@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Fighter - Level Menu</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            background: url('ocean-background.jpeg') no-repeat center center, #0000FF;
+            background-size: cover;
+        }
+
+        h1 {
+            font-size: 3em;
+            text-shadow: 2px 2px 4px #000;
+            margin-top: 20px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .level {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .level-name {
+            width: 150px;
+            text-align: right;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .progress {
+            display: flex;
+            align-items: center;
+        }
+
+        .circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: black;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .circle.normal {
+            background-color: red;
+        }
+
+        .circle.mini-boss {
+            background-color: blue;
+        }
+
+        .line {
+            width: 50px;
+            height: 5px;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fish Fighter</h1>
+    <div class="menu">
+        <div class="level">
+            <div class="level-name">Shallow Reefs</div>
+            <div class="progress">
+                <div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle mini-boss" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+				<div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle" onclick="location.href='notepad.html'"></div>
+            </div>
+        </div>
+        <div class="level">
+            <div class="level-name">Marine Jungle</div>
+            <div class="progress">
+                <div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle mini-boss" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+				<div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle" onclick="location.href='notepad.html'"></div>
+            </div>
+        </div>
+        <div class="level">
+            <div class="level-name">Desolation Caves</div>
+            <div class="progress">
+                <div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle mini-boss" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+				<div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle" onclick="location.href='notepad.html'"></div>
+            </div>
+        </div>
+        <div class="level">
+            <div class="level-name">Mixed Worlds</div>
+            <div class="progress">
+                <div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle mini-boss" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+				<div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle normal" onclick="location.href='notepad.html'"></div>
+                <div class="line"></div>
+                <div class="circle" onclick="location.href='notepad.html'"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

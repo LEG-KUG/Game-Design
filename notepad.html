@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Fighter</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            background: url('Game Design (Game Arena 1).jpg') no-repeat center center;
+            background-size: cover;
+        }
+        .health-bar-container {
+            position: absolute;
+            width: 300px;
+            height: 20px;
+            background: gray;
+        }
+        .health-bar {
+            height: 100%;
+            background: red;
+            transition: width 0.2s ease;
+        }
+        #player1-health-container {
+            top: 10px;
+            left: 10px;
+        }
+        #player2-health-container {
+            top: 10px;
+            right: 10px;
+            transform: scaleX(-1);
+        }
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 60px;
+            color: white;
+        }
+        .play-again {
+            margin-top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: yellow;
+            text-decoration: underline;
+        }
+        .main-menu {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .main-menu:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+    </style>
+</head>
+<body>
+    <button class="main-menu" onclick="location.href='Main Menu.html'">Main Menu</button>
+    <div id="player1-health-container" class="health-bar-container">
+        <div id="player1-health" class="health-bar"></div>
+    </div>
+    <div id="player2-health-container" class="health-bar-container">
+        <div id="player2-health" class="health-bar"></div>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const playerWidth = 100, playerHeight = 60;
+        const player1 = { x: 100, y: canvas.height / 2, color: "orange", health: 100, speed: 10, canAttack: true };
+        const player2 = { x: canvas.width - 200, y: canvas.height / 2, color: "blue", health: 100, speed: 5, canAttack: true };
+        const keys = {};
+
+        const controls = {
+            player1: { up: "w", down: "s", left: "a", right: "d", attack: " " }
+        };
+
+        function drawPlayer(player) {
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y, playerWidth, playerHeight);
+        }
+
+        function updateHealthBars() {
+            document.getElementById("player1-health").style.width = `${player1.health * 3}px`;
+            document.getElementById("player2-health").style.width = `${player2.health * 3}px`;
+        }
+
+        function detectCollision(p1, p2) {
+            return p1.x < p2.x + playerWidth &&
+                   p1.x + playerWidth > p2.x &&
+                   p1.y < p2.y + playerHeight &&
+                   p1.y + playerHeight > p2.y;
+        }
+
+        function handleAttack(attacker, target) {
+            if (attacker.canAttack && detectCollision(attacker, target)) {
+                target.health = Math.max(0, target.health - 15);
+                attacker.canAttack = false;
+                setTimeout(() => attacker.canAttack = true, 500);
+            }
+        }
+
+        function handleMovement(player, controls) {
+            if (keys[controls.up] && player.y > 0) player.y -= player.speed;
+            if (keys[controls.down] && player.y < canvas.height - playerHeight) player.y += player.speed;
+            if (keys[controls.left] && player.x > 0) player.x -= player.speed;
+            if (keys[controls.right] && player.x < canvas.width - playerWidth) player.x += player.speed;
+        }
+
+        function botAI() {
+            const randomDirection = Math.floor(Math.random() * 4);
+            switch (randomDirection) {
+                case 0: if (player2.y > 0) player2.y -= player2.speed; break;
+                case 1: if (player2.y < canvas.height - playerHeight) player2.y += player2.speed; break;
+                case 2: if (player2.x > 0) player2.x -= player2.speed; break;
+                case 3: if (player2.x < canvas.width - playerWidth) player2.x += player2.speed; break;
+            }
+            if (detectCollision(player2, player1)) handleAttack(player2, player1);
+        }
+
+        function showGameOverMessage(message) {
+            const gameOverDiv = document.createElement('div');
+            gameOverDiv.className = 'game-over';
+            gameOverDiv.innerHTML = `${message}<div class='play-again'>Play Again</div>`;
+            document.body.appendChild(gameOverDiv);
+            document.querySelector('.play-again').addEventListener('click', () => window.location.reload());
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            handleMovement(player1, controls.player1);
+            botAI();
+
+            if (keys[controls.player1.attack]) handleAttack(player1, player2);
+
+            drawPlayer(player1);
+            drawPlayer(player2);
+
+            updateHealthBars();
+
+            if (player1.health <= 0) {
+                showGameOverMessage('Defeat');
+                return;
+            }
+            if (player2.health <= 20) {
+                showGameOverMessage('Victory');
+                return;
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        window.addEventListener("keydown", (e) => keys[e.key] = true);
+        window.addEventListener("keyup", (e) => keys[e.key] = false);
+
+        gameLoop();
+    </script>
+</body>
+</html>
